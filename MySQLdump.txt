@@ -22,6 +22,37 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;\
 \
 --\
+-- Table structure for table `Auction`\
+--\
+\
+DROP TABLE IF EXISTS `Auction`;\
+/*!40101 SET @saved_cs_client     = @@character_set_client */;\
+/*!40101 SET character_set_client = utf8 */;\
+CREATE TABLE `Auction` (\
+  `sellerId` varchar(11) NOT NULL,\
+  `quantity` int(11) DEFAULT NULL,\
+  `basePrice` int(11) NOT NULL,\
+  `productId` int(11) DEFAULT NULL,\
+  `increment` int(11) DEFAULT NULL,\
+  `category` varchar(11) DEFAULT NULL,\
+  `validity` int(11) DEFAULT NULL,\
+  `currentPrice` int(11) DEFAULT NULL,\
+  `endTime` varchar(35) DEFAULT NULL,\
+  `buyerId` varchar(11) DEFAULT NULL\
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
+/*!40101 SET character_set_client = @saved_cs_client */;\
+\
+--\
+-- Dumping data for table `Auction`\
+--\
+\
+LOCK TABLES `Auction` WRITE;\
+/*!40000 ALTER TABLE `Auction` DISABLE KEYS */;\
+INSERT INTO `Auction` VALUES ('123-45-9999',3,100,20,11,'Electronics',1,NULL,'day',NULL),('123-44-5555',1,340,23,15,'Electronics',1,NULL,'day',NULL),('123-44-5555',1,340,23,15,'Electronics',0,360,'day','123-44-5555'),('123-45-9999',3,100,20,11,'Electronics',0,190,'day','undefined');\
+/*!40000 ALTER TABLE `Auction` ENABLE KEYS */;\
+UNLOCK TABLES;\
+\
+--\
 -- Table structure for table `Buyer`\
 --\
 \
@@ -34,7 +65,7 @@ CREATE TABLE `Buyer` (\
   `category` varchar(11) DEFAULT NULL,\
   PRIMARY KEY (`buyerId`),\
   KEY `productId` (`productId`),\
-  CONSTRAINT `Buyer_ibfk_1` FOREIGN KEY (`buyerId`) REFERENCES `userDetails` (`id`),\
+  CONSTRAINT `Buyer_ibfk_1` FOREIGN KEY (`buyerId`) REFERENCES `userDetails` (`ssn`),\
   CONSTRAINT `Buyer_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`)\
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
 /*!40101 SET character_set_client = @saved_cs_client */;\
@@ -56,11 +87,9 @@ DROP TABLE IF EXISTS `History`;\
 /*!40101 SET @saved_cs_client     = @@character_set_client */;\
 /*!40101 SET character_set_client = utf8 */;\
 CREATE TABLE `History` (\
-  `userId` varchar(11) NOT NULL,\
+  `userId` varchar(11) DEFAULT NULL,\
   `itemsBought` varchar(250) DEFAULT NULL,\
-  `itemsSold` varchar(250) DEFAULT NULL,\
-  PRIMARY KEY (`userId`),\
-  CONSTRAINT `History_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `userDetails` (`id`)\
+  `itemsSold` varchar(250) DEFAULT NULL\
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
 /*!40101 SET character_set_client = @saved_cs_client */;\
 \
@@ -70,6 +99,7 @@ CREATE TABLE `History` (\
 \
 LOCK TABLES `History` WRITE;\
 /*!40000 ALTER TABLE `History` DISABLE KEYS */;\
+INSERT INTO `History` VALUES ('123-45-9999',NULL,'Bottle'),('123-44-5555',NULL,'Moto g'),('123-44-5555',NULL,'Moto g'),('123-44-5555',NULL,'LED TV'),('123-44-5555',NULL,'Laptop'),('123-45-9999',NULL,'Laptop'),('123-45-9999',NULL,'lenovo'),('123-45-9999',NULL,'Ambur'),('123-45-9999',NULL,'Chair'),('123-45-9999',NULL,'Table'),('123-45-9999',NULL,'Table'),('123-45-9999',NULL,'hat'),('123-44-5555',NULL,'Jerkin'),('123-44-5555',NULL,'PlayStation');\
 /*!40000 ALTER TABLE `History` ENABLE KEYS */;\
 UNLOCK TABLES;\
 \
@@ -140,11 +170,8 @@ CREATE TABLE `Selling` (\
   `quantity` int(11) DEFAULT NULL,\
   `price` int(11) NOT NULL,\
   `productId` int(11) DEFAULT NULL,\
-  `category` varchar(11) DEFAULT NULL,\
   `validity` int(11) DEFAULT NULL,\
-  `buyerId` varchar(11) DEFAULT NULL,\
-  PRIMARY KEY (`sellerId`),\
-  CONSTRAINT `Selling_ibfk_1` FOREIGN KEY (`sellerId`) REFERENCES `Seller` (`sellerId`)\
+  `buyerId` varchar(11) DEFAULT NULL\
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
 /*!40101 SET character_set_client = @saved_cs_client */;\
 \
@@ -154,6 +181,7 @@ CREATE TABLE `Selling` (\
 \
 LOCK TABLES `Selling` WRITE;\
 /*!40000 ALTER TABLE `Selling` DISABLE KEYS */;\
+INSERT INTO `Selling` VALUES ('123-45-9999',2,345,21,1,NULL),('123-44-5555',1,110,22,1,NULL);\
 /*!40000 ALTER TABLE `Selling` ENABLE KEYS */;\
 UNLOCK TABLES;\
 \
@@ -165,7 +193,7 @@ DROP TABLE IF EXISTS `forgotPassword`;\
 /*!40101 SET @saved_cs_client     = @@character_set_client */;\
 /*!40101 SET character_set_client = utf8 */;\
 CREATE TABLE `forgotPassword` (\
-  `id` varchar(11) DEFAULT NULL,\
+  `ssn` varchar(11) DEFAULT NULL,\
   `securityQuestion` varchar(90) DEFAULT NULL,\
   `answer` varchar(35) DEFAULT NULL\
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
@@ -177,7 +205,7 @@ CREATE TABLE `forgotPassword` (\
 \
 LOCK TABLES `forgotPassword` WRITE;\
 /*!40000 ALTER TABLE `forgotPassword` DISABLE KEYS */;\
-INSERT INTO `forgotPassword` VALUES ('123-44-5555','What is your mothers maiden name ?','Shantha'),('123-45-9999','What is your mother maiden name ?','Geetha');\
+INSERT INTO `forgotPassword` VALUES ('123-44-5555','What is your mothers maiden name ?','Shantha'),('123-45-9999','What is your mother maiden name ?','Geetha'),('123-44-6666','What is your mother maiden name ?','Abc'),('123-44-6677','What is your mother maiden name ?','Vasanthi'),('123-44-7777','What is your mother maiden name ?','Lakshmi'),('123-44-5555','What is your mother maiden name ?','Shantha'),('123-44-5555','What is your mother maiden name ?','Shantha');\
 /*!40000 ALTER TABLE `forgotPassword` ENABLE KEYS */;\
 UNLOCK TABLES;\
 \
@@ -196,11 +224,11 @@ CREATE TABLE `product` (\
   `brand` varchar(25) DEFAULT NULL,\
   `state` varchar(25) DEFAULT NULL,\
   `model` varchar(35) DEFAULT NULL,\
-  `description` varchar(45) DEFAULT NULL,\
+  `description` varchar(450) DEFAULT NULL,\
   `productName` varchar(35) DEFAULT NULL,\
   `imageName` varchar(450) DEFAULT NULL,\
   PRIMARY KEY (`productId`)\
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;\
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;\
 /*!40101 SET character_set_client = @saved_cs_client */;\
 \
 --\
@@ -209,7 +237,7 @@ CREATE TABLE `product` (\
 \
 LOCK TABLES `product` WRITE;\
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;\
-INSERT INTO `product` VALUES (1,'phone','electronics',1,'Google','new','touchscreen android phone','Price: $649 / $699 from Google Play Store\\nSoC','Google Nexus 6 (32GB)','fs01.androidpit.info/userfiles/2692059/image/Blog/nexus6-front-back.jpg'),(2,'phone','electronics',1,'Apple','new','touchscreen ios phone','Price: $639 / $699 from apple Store\\nKey Featu','Apple iphone 6 (32GB)','http://recodetech.files.wordpress.com/2014/09/iphone-6-apple-pic.jpg'),(3,'TV','electronics',1,'Samsung','new','flat screen smart tv','Price: $930.99 \\nPICTURE QUALITY\\nFull HD 1080p','Samsung 48\\" Full HD 1080p SmartTV','http://www.blogcdn.com/www.engadget.com/media/2013/02/samsung-tv-discovery.jpg'),(4,'Laptop','electronics',1,'Samsung','new','multi function laptop','Price:  $499.99 \\n\\nCondition:\\nNew: A brand-new','HP Pavilion 15.6\\" Laptop i7-6GB DDR','http://i.ebayimg.com/00/s/Mzk0WDUwMA==/z/uhgAAOSwkNZUdujm/$_12.JPG'),(5,'Watch','accessories',1,'Rolex','new','Stylish wrist watch','Price: $1450 \\nBrand:\\nRolex\\nModel:\\nDate\\nGender','Rolex 14k Yellow Gold/silver Watch','http://i.ebayimg.com/00/s/NDgwWDY0MA==/z/AyoAAOSw0vBUY-23/$_12.JPG'),(6,'Car','AutoMobiles',1,'Ford','used','damn hot car','Price: $19,200.00\\nYear:2008Body Type:Converti','2012 Ford Mustang CS GT-EDITION','http://i.ebayimg.com/00/s/MTA2MlgxNjAw/z/G0MAAOSwj0NUcmZH/$_12.JPG');\
+INSERT INTO `product` VALUES (1,'phone','electronics',1,'Google','new','touchscreen android phone','Price: $649 / $699 from Google Play Store\\nSoC','Google Nexus 6 (32GB)','http://fs01.androidpit.info/userfiles/2692059/image/Blog/nexus6-front-back.jpg'),(2,'phone','electronics',1,'Apple','new','touchscreen ios phone','Price: $639 / $699 from apple Store\\nKey Featu','Apple iphone 6 (32GB)','http://recodetech.files.wordpress.com/2014/09/iphone-6-apple-pic.jpg'),(3,'TV','electronics',1,'Samsung','new','flat screen smart tv','Price: $930.99 \\nPICTURE QUALITY\\nFull HD 1080p','Samsung 48\\" Full HD 1080p SmartTV','http://www.blogcdn.com/www.engadget.com/media/2013/02/samsung-tv-discovery.jpg'),(4,'Laptop','electronics',1,'Samsung','new','multi function laptop','Price:  $499.99 \\n\\nCondition:\\nNew: A brand-new','HP Pavilion 15.6\\" Laptop i7-6GB DDR','http://i.ebayimg.com/00/s/Mzk0WDUwMA==/z/uhgAAOSwkNZUdujm/$_12.JPG'),(5,'Watch','accessories',1,'Rolex','new','Stylish wrist watch','Price: $1450 \\nBrand:\\nRolex\\nModel:\\nDate\\nGender','Rolex 14k Yellow Gold/silver Watch','http://i.ebayimg.com/00/s/NDgwWDY0MA==/z/AyoAAOSw0vBUY-23/$_12.JPG'),(6,'Car','AutoMobiles',1,'Ford','used','damn hot car','Price: $19,200.00\\nYear:2008Body Type:Converti','2012 Ford Mustang CS GT-EDITION','http://i.ebayimg.com/00/s/MTA2MlgxNjAw/z/G0MAAOSwj0NUcmZH/$_12.JPG'),(7,'Cell Phone','Electronics',1,'Motorola','New','MotoG','Quality cell phone from Motorola','Moto g','http://bigelectronics.net/images/art/consumer-electronics.jpg'),(8,'Cell Phone','Electronics',1,'Motorola','New','MotoG','Quality cell phone from Motorola','Moto g','http://bigelectronics.net/images/art/consumer-electronics.jpg'),(9,'Jerkin','Clothes',1,'Hollister','New','Hollister11','Hollister jerkin for 50%','Jerkin','http://mysterywallpaper.blogspot.com/2012/11/creative-nike-t-shirts.html'),(10,'Bottle','All Other',1,'TupperWare','New','TupperWare Bottle','Tupper ware bottle for 1$ a peice','Bottle','http://i24.photobucket.com/albums/c28/novamelissah/DIY%20DVD%20Shelf%20Project/DIYDVDShelfProject-1_zpscb7a7d7a.jpg'),(11,'Mobile','Electronics',1,'Motorola','New','MototG','Quality Android cell phone from Motorola','Moto g','http://bigelectronics.net/images/art/consumer-electronics.jpg'),(12,'Mobile','Electronics',1,'Motorola','New','MotoG','Quality Android phone from Motorola','Moto g','http://bigelectronics.net/images/art/consumer-electronics.jpg'),(13,'TV','Electronics',1,'Samsung','New','SS49LED','Full HD samsung TV','LED TV','http://bigelectronics.net/images/art/consumer-electronics.jpg'),(14,'Computer','Electronics',1,'Sony','New','EP1540','15.5 Sony laptop','Laptop','http://bigelectronics.net/images/art/consumer-electronics.jpg'),(15,'Computer','Electronics',1,'Alienware','New','AlienWare14','Gaming laptopn by AlienWare','Laptop','http://bigelectronics.net/images/art/consumer-electronics.jpg'),(16,'lap top','Electronics',2,'lenovo','New','flex 2','Brand new','lenovo','http://bigelectronics.net/images/art/consumer-electronics.jpg'),(17,'Human','Other',1,'Biriyani','New','A1','Tasty biriyani','Ambur','http://i24.photobucket.com/albums/c28/novamelissah/DIY%20DVD%20Shelf%20Project/DIYDVDShelfProject-1_zpscb7a7d7a.jpg'),(18,'Furniture','Other',2,'neelkamal','New','cha3','plastic','Chair','http://i24.photobucket.com/albums/c28/novamelissah/DIY%20DVD%20Shelf%20Project/DIYDVDShelfProject-1_zpscb7a7d7a.jpg'),(19,'Table','Electronics',3,'Hatrerge','New','edw34','asd qwer','Table','http://bigelectronics.net/images/art/consumer-electronics.jpg'),(20,'TV','Electronics',3,'Papple','New','Q12','new','Table','http://bigelectronics.net/images/art/consumer-electronics.jpg'),(21,';salc;','All Other',2,'qer','New','ea13','new hat','hat','http://i24.photobucket.com/albums/c28/novamelissah/DIY%20DVD%20Shelf%20Project/DIYDVDShelfProject-1_zpscb7a7d7a.jpg'),(22,'Jerkin','Clothes',1,'Hollister','New','Hollister11','50% discount on Hollister jerkins','Jerkin','http://mysterywallpaper.blogspot.com/2012/11/creative-nike-t-shirts.html'),(23,'Gaming','Electronics',1,'Sony','New','SonyPS4','Gaming console from sony','PlayStation','http://bigelectronics.net/images/art/consumer-electronics.jpg');\
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;\
 UNLOCK TABLES;\
 \
@@ -221,12 +249,11 @@ DROP TABLE IF EXISTS `review`;\
 /*!40101 SET @saved_cs_client     = @@character_set_client */;\
 /*!40101 SET character_set_client = utf8 */;\
 CREATE TABLE `review` (\
-  `userId` varchar(11) NOT NULL,\
-  `productId` int(11) DEFAULT NULL,\
-  `rating` int(11) DEFAULT NULL,\
-  `description` varchar(90) DEFAULT NULL,\
-  PRIMARY KEY (`userId`),\
-  CONSTRAINT `review_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `userDetails` (`id`)\
+  `userId` varchar(50) NOT NULL,\
+  `rating` int(10) DEFAULT NULL,\
+  `review` varchar(1000) DEFAULT NULL,\
+  KEY `userId_idx` (`userId`),\
+  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `userDetails` (`ssn`) ON DELETE CASCADE ON UPDATE CASCADE\
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
 /*!40101 SET character_set_client = @saved_cs_client */;\
 \
@@ -240,6 +267,39 @@ LOCK TABLES `review` WRITE;\
 UNLOCK TABLES;\
 \
 --\
+-- Table structure for table `shoppingCart`\
+--\
+\
+DROP TABLE IF EXISTS `shoppingCart`;\
+/*!40101 SET @saved_cs_client     = @@character_set_client */;\
+/*!40101 SET character_set_client = utf8 */;\
+CREATE TABLE `shoppingCart` (\
+  `buyerId` varchar(11) DEFAULT NULL,\
+  `productId` int(6) DEFAULT NULL,\
+  `productName` varchar(35) NOT NULL,\
+  `productType` varchar(25) DEFAULT NULL,\
+  `category` varchar(11) DEFAULT NULL,\
+  `quantity` int(11) DEFAULT NULL,\
+  `brand` varchar(25) DEFAULT NULL,\
+  `imageName` varchar(100) DEFAULT NULL,\
+  `state` varchar(25) DEFAULT NULL,\
+  `price` int(11) DEFAULT NULL,\
+  `cartItemId` mediumint(5) NOT NULL AUTO_INCREMENT,\
+  PRIMARY KEY (`cartItemId`)\
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;\
+/*!40101 SET character_set_client = @saved_cs_client */;\
+\
+--\
+-- Dumping data for table `shoppingCart`\
+--\
+\
+LOCK TABLES `shoppingCart` WRITE;\
+/*!40000 ALTER TABLE `shoppingCart` DISABLE KEYS */;\
+INSERT INTO `shoppingCart` VALUES ('123-44-5555',21,'hat',';salc;','All Other',2,'qer','http://i24.photobucket.com/albums/c28/novamelissah/DIY%20DVD%20Shelf%20Project/DIYDVDShelfProject-1_','New',345,3),('123-44-5555',22,'Jerkin','Jerkin','Clothes',1,'Hollister','http://mysterywallpaper.blogspot.com/2012/11/creative-nike-t-shirts.html','New',110,5),('123-44-5555',22,'Jerkin','Jerkin','Clothes',1,'Hollister','http://mysterywallpaper.blogspot.com/2012/11/creative-nike-t-shirts.html','New',110,7),('123-44-5555',22,'Jerkin','Jerkin','Clothes',1,'Hollister','http://mysterywallpaper.blogspot.com/2012/11/creative-nike-t-shirts.html','New',110,8),('123-44-5555',22,'Jerkin','Jerkin','Clothes',1,'Hollister','http://mysterywallpaper.blogspot.com/2012/11/creative-nike-t-shirts.html','New',110,9),('123-44-5555',22,'Jerkin','Jerkin','Clothes',1,'Hollister','http://mysterywallpaper.blogspot.com/2012/11/creative-nike-t-shirts.html','New',110,10),('123-44-5555',22,'Jerkin','Jerkin','Clothes',1,'Hollister','http://mysterywallpaper.blogspot.com/2012/11/creative-nike-t-shirts.html','New',110,11),('undefined',22,'Jerkin','Jerkin','Clothes',1,'Hollister','http://mysterywallpaper.blogspot.com/2012/11/creative-nike-t-shirts.html','New',110,13);\
+/*!40000 ALTER TABLE `shoppingCart` ENABLE KEYS */;\
+UNLOCK TABLES;\
+\
+--\
 -- Table structure for table `userDetails`\
 --\
 \
@@ -247,7 +307,6 @@ DROP TABLE IF EXISTS `userDetails`;\
 /*!40101 SET @saved_cs_client     = @@character_set_client */;\
 /*!40101 SET character_set_client = utf8 */;\
 CREATE TABLE `userDetails` (\
-	`id` varchar(11) NOT NULL DEFAULT '000000',\
   `firstName` varchar(35) DEFAULT NULL,\
   `lastName` varchar(35) DEFAULT NULL,\
   `email` varchar(35) DEFAULT NULL,\
@@ -257,7 +316,9 @@ CREATE TABLE `userDetails` (\
   `city` varchar(25) DEFAULT NULL,\
   `state` varchar(25) DEFAULT NULL,\
   `accountDetails` varchar(25) DEFAULT NULL,\
-  PRIMARY KEY (`id`)\
+  `ssn` varchar(11) NOT NULL,\
+  `time` varchar(35) NOT NULL,\
+  PRIMARY KEY (`ssn`)\
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
 /*!40101 SET character_set_client = @saved_cs_client */;\
 \
@@ -267,7 +328,7 @@ CREATE TABLE `userDetails` (\
 \
 LOCK TABLES `userDetails` WRITE;\
 /*!40000 ALTER TABLE `userDetails` DISABLE KEYS */;\
-INSERT INTO `userDetails` VALUES (1,'Bharath','Gowda','bharath.nag.gowda@gmail.com','Abc12345678',NULL,NULL,NULL,NULL,NULL),(2,'Nisha','Anil','vidyags@outlook.com','Anil1234',NULL,NULL,NULL,NULL,NULL);\
+INSERT INTO `userDetails` VALUES ('Prabhu','Maniraj','pbustudy@gmail.com','ad',NULL,NULL,NULL,NULL,NULL,'1','Sat Dec 06 2014 20:16:20 GMT-0800 ('),('Nishanth','prabhuswamy','nishanththeprince@gmail.com','Abc12345678',NULL,NULL,NULL,NULL,NULL,'123-44-5555','Mon Dec 08 2014 11:48:05 GMT-0800 ('),('Surabhi','Mundargi','surabhi.m@gmail.com','Surabhi11',NULL,NULL,NULL,NULL,NULL,'123-44-6666','Fri Dec 05 2014 13:09:23 GMT-0800 ('),('Roshan','Srinivas','roshan.srinivas@gmail.com','Roshan123',NULL,NULL,NULL,NULL,NULL,'123-44-6677','Sat Dec 06 2014 01:51:57 GMT-0800 ('),('Prabhu','Maniraj','pbustudy@gmail.com','Pbu123456',NULL,NULL,NULL,NULL,NULL,'123-44-7777','Sat Dec 06 2014 20:16:20 GMT-0800 ('),('Nisha','Anil','vidyags@outlook.com','Anil1234',NULL,NULL,NULL,NULL,NULL,'123-45-9999','Sat Dec 06 2014 19:59:34 GMT-0800 ('),('admin','ebay','admin@ebay.com','adminlogin1','ebay office sanjose','93145','san jose','CAL','admin','777-77-7777','Sun Dec 07 2014 22:42:31 GMT-0800 (');\
 /*!40000 ALTER TABLE `userDetails` ENABLE KEYS */;\
 UNLOCK TABLES;\
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;\
@@ -280,5 +341,5 @@ UNLOCK TABLES;\
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;\
 \
--- Dump completed on 2014-12-04 11:15:02\
+-- Dump completed on 2014-12-08 11:55:55\
 }
