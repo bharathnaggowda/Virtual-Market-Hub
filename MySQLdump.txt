@@ -1,0 +1,284 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 -- MySQL dump 10.13  Distrib 5.5.38, for debian-linux-gnu (x86_64)\
+--\
+-- Host: localhost    Database: VirtualMarketPlace\
+-- ------------------------------------------------------\
+-- Server version	5.5.38-0ubuntu0.14.04.1\
+\
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;\
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;\
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;\
+/*!40101 SET NAMES utf8 */;\
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;\
+/*!40103 SET TIME_ZONE='+00:00' */;\
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;\
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;\
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;\
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;\
+\
+--\
+-- Table structure for table `Buyer`\
+--\
+\
+DROP TABLE IF EXISTS `Buyer`;\
+/*!40101 SET @saved_cs_client     = @@character_set_client */;\
+/*!40101 SET character_set_client = utf8 */;\
+CREATE TABLE `Buyer` (\
+  `buyerId` varchar(11) NOT NULL DEFAULT '',\
+  `productId` mediumint(6) DEFAULT NULL,\
+  `category` varchar(11) DEFAULT NULL,\
+  PRIMARY KEY (`buyerId`),\
+  KEY `productId` (`productId`),\
+  CONSTRAINT `Buyer_ibfk_1` FOREIGN KEY (`buyerId`) REFERENCES `userDetails` (`id`),\
+  CONSTRAINT `Buyer_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`)\
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
+/*!40101 SET character_set_client = @saved_cs_client */;\
+\
+--\
+-- Dumping data for table `Buyer`\
+--\
+\
+LOCK TABLES `Buyer` WRITE;\
+/*!40000 ALTER TABLE `Buyer` DISABLE KEYS */;\
+/*!40000 ALTER TABLE `Buyer` ENABLE KEYS */;\
+UNLOCK TABLES;\
+\
+--\
+-- Table structure for table `History`\
+--\
+\
+DROP TABLE IF EXISTS `History`;\
+/*!40101 SET @saved_cs_client     = @@character_set_client */;\
+/*!40101 SET character_set_client = utf8 */;\
+CREATE TABLE `History` (\
+  `userId` varchar(11) NOT NULL,\
+  `itemsBought` varchar(250) DEFAULT NULL,\
+  `itemsSold` varchar(250) DEFAULT NULL,\
+  PRIMARY KEY (`userId`),\
+  CONSTRAINT `History_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `userDetails` (`id`)\
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
+/*!40101 SET character_set_client = @saved_cs_client */;\
+\
+--\
+-- Dumping data for table `History`\
+--\
+\
+LOCK TABLES `History` WRITE;\
+/*!40000 ALTER TABLE `History` DISABLE KEYS */;\
+/*!40000 ALTER TABLE `History` ENABLE KEYS */;\
+UNLOCK TABLES;\
+\
+--\
+-- Table structure for table `Payment`\
+--\
+\
+DROP TABLE IF EXISTS `Payment`;\
+/*!40101 SET @saved_cs_client     = @@character_set_client */;\
+/*!40101 SET character_set_client = utf8 */;\
+CREATE TABLE `Payment` (\
+  `paymentId` mediumint(6) NOT NULL AUTO_INCREMENT,\
+  `paymentMode` varchar(25) DEFAULT NULL,\
+  `buyerId` varchar(11) DEFAULT NULL,\
+  `sellerId` varchar(11) DEFAULT NULL,\
+  `paymentAmount` int(11) DEFAULT NULL,\
+  PRIMARY KEY (`paymentId`),\
+  KEY `buyerId` (`buyerId`),\
+  KEY `sellerId` (`sellerId`),\
+  CONSTRAINT `Payment_ibfk_1` FOREIGN KEY (`buyerId`) REFERENCES `Buyer` (`buyerId`),\
+  CONSTRAINT `Payment_ibfk_2` FOREIGN KEY (`sellerId`) REFERENCES `Seller` (`sellerId`)\
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
+/*!40101 SET character_set_client = @saved_cs_client */;\
+\
+--\
+-- Dumping data for table `Payment`\
+--\
+\
+LOCK TABLES `Payment` WRITE;\
+/*!40000 ALTER TABLE `Payment` DISABLE KEYS */;\
+/*!40000 ALTER TABLE `Payment` ENABLE KEYS */;\
+UNLOCK TABLES;\
+\
+--\
+-- Table structure for table `Seller`\
+--\
+\
+DROP TABLE IF EXISTS `Seller`;\
+/*!40101 SET @saved_cs_client     = @@character_set_client */;\
+/*!40101 SET character_set_client = utf8 */;\
+CREATE TABLE `Seller` (\
+  `sellerId` varchar(11) NOT NULL DEFAULT '',\
+  `productId` varchar(25) DEFAULT NULL,\
+  `category` varchar(9) DEFAULT NULL,\
+  PRIMARY KEY (`sellerId`),\
+  KEY `productId` (`productId`)\
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
+/*!40101 SET character_set_client = @saved_cs_client */;\
+\
+--\
+-- Dumping data for table `Seller`\
+--\
+\
+LOCK TABLES `Seller` WRITE;\
+/*!40000 ALTER TABLE `Seller` DISABLE KEYS */;\
+/*!40000 ALTER TABLE `Seller` ENABLE KEYS */;\
+UNLOCK TABLES;\
+\
+--\
+-- Table structure for table `Selling`\
+--\
+\
+DROP TABLE IF EXISTS `Selling`;\
+/*!40101 SET @saved_cs_client     = @@character_set_client */;\
+/*!40101 SET character_set_client = utf8 */;\
+CREATE TABLE `Selling` (\
+  `sellerId` varchar(11) NOT NULL,\
+  `quantity` int(11) DEFAULT NULL,\
+  `price` int(11) NOT NULL,\
+  `productId` int(11) DEFAULT NULL,\
+  `category` varchar(11) DEFAULT NULL,\
+  `validity` int(11) DEFAULT NULL,\
+  `buyerId` varchar(11) DEFAULT NULL,\
+  PRIMARY KEY (`sellerId`),\
+  CONSTRAINT `Selling_ibfk_1` FOREIGN KEY (`sellerId`) REFERENCES `Seller` (`sellerId`)\
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
+/*!40101 SET character_set_client = @saved_cs_client */;\
+\
+--\
+-- Dumping data for table `Selling`\
+--\
+\
+LOCK TABLES `Selling` WRITE;\
+/*!40000 ALTER TABLE `Selling` DISABLE KEYS */;\
+/*!40000 ALTER TABLE `Selling` ENABLE KEYS */;\
+UNLOCK TABLES;\
+\
+--\
+-- Table structure for table `forgotPassword`\
+--\
+\
+DROP TABLE IF EXISTS `forgotPassword`;\
+/*!40101 SET @saved_cs_client     = @@character_set_client */;\
+/*!40101 SET character_set_client = utf8 */;\
+CREATE TABLE `forgotPassword` (\
+  `id` varchar(11) DEFAULT NULL,\
+  `securityQuestion` varchar(90) DEFAULT NULL,\
+  `answer` varchar(35) DEFAULT NULL\
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
+/*!40101 SET character_set_client = @saved_cs_client */;\
+\
+--\
+-- Dumping data for table `forgotPassword`\
+--\
+\
+LOCK TABLES `forgotPassword` WRITE;\
+/*!40000 ALTER TABLE `forgotPassword` DISABLE KEYS */;\
+INSERT INTO `forgotPassword` VALUES ('123-44-5555','What is your mothers maiden name ?','Shantha'),('123-45-9999','What is your mother maiden name ?','Geetha');\
+/*!40000 ALTER TABLE `forgotPassword` ENABLE KEYS */;\
+UNLOCK TABLES;\
+\
+--\
+-- Table structure for table `product`\
+--\
+\
+DROP TABLE IF EXISTS `product`;\
+/*!40101 SET @saved_cs_client     = @@character_set_client */;\
+/*!40101 SET character_set_client = utf8 */;\
+CREATE TABLE `product` (\
+  `productId` mediumint(6) NOT NULL AUTO_INCREMENT,\
+  `productType` varchar(25) DEFAULT NULL,\
+  `category` varchar(11) DEFAULT NULL,\
+  `quantity` int(11) DEFAULT NULL,\
+  `brand` varchar(25) DEFAULT NULL,\
+  `state` varchar(25) DEFAULT NULL,\
+  `model` varchar(35) DEFAULT NULL,\
+  `description` varchar(45) DEFAULT NULL,\
+  `productName` varchar(35) DEFAULT NULL,\
+  `imageName` varchar(450) DEFAULT NULL,\
+  PRIMARY KEY (`productId`)\
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;\
+/*!40101 SET character_set_client = @saved_cs_client */;\
+\
+--\
+-- Dumping data for table `product`\
+--\
+\
+LOCK TABLES `product` WRITE;\
+/*!40000 ALTER TABLE `product` DISABLE KEYS */;\
+INSERT INTO `product` VALUES (1,'phone','electronics',1,'Google','new','touchscreen android phone','Price: $649 / $699 from Google Play Store\\nSoC','Google Nexus 6 (32GB)','fs01.androidpit.info/userfiles/2692059/image/Blog/nexus6-front-back.jpg'),(2,'phone','electronics',1,'Apple','new','touchscreen ios phone','Price: $639 / $699 from apple Store\\nKey Featu','Apple iphone 6 (32GB)','http://recodetech.files.wordpress.com/2014/09/iphone-6-apple-pic.jpg'),(3,'TV','electronics',1,'Samsung','new','flat screen smart tv','Price: $930.99 \\nPICTURE QUALITY\\nFull HD 1080p','Samsung 48\\" Full HD 1080p SmartTV','http://www.blogcdn.com/www.engadget.com/media/2013/02/samsung-tv-discovery.jpg'),(4,'Laptop','electronics',1,'Samsung','new','multi function laptop','Price:  $499.99 \\n\\nCondition:\\nNew: A brand-new','HP Pavilion 15.6\\" Laptop i7-6GB DDR','http://i.ebayimg.com/00/s/Mzk0WDUwMA==/z/uhgAAOSwkNZUdujm/$_12.JPG'),(5,'Watch','accessories',1,'Rolex','new','Stylish wrist watch','Price: $1450 \\nBrand:\\nRolex\\nModel:\\nDate\\nGender','Rolex 14k Yellow Gold/silver Watch','http://i.ebayimg.com/00/s/NDgwWDY0MA==/z/AyoAAOSw0vBUY-23/$_12.JPG'),(6,'Car','AutoMobiles',1,'Ford','used','damn hot car','Price: $19,200.00\\nYear:2008Body Type:Converti','2012 Ford Mustang CS GT-EDITION','http://i.ebayimg.com/00/s/MTA2MlgxNjAw/z/G0MAAOSwj0NUcmZH/$_12.JPG');\
+/*!40000 ALTER TABLE `product` ENABLE KEYS */;\
+UNLOCK TABLES;\
+\
+--\
+-- Table structure for table `review`\
+--\
+\
+DROP TABLE IF EXISTS `review`;\
+/*!40101 SET @saved_cs_client     = @@character_set_client */;\
+/*!40101 SET character_set_client = utf8 */;\
+CREATE TABLE `review` (\
+  `userId` varchar(11) NOT NULL,\
+  `productId` int(11) DEFAULT NULL,\
+  `rating` int(11) DEFAULT NULL,\
+  `description` varchar(90) DEFAULT NULL,\
+  PRIMARY KEY (`userId`),\
+  CONSTRAINT `review_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `userDetails` (`id`)\
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
+/*!40101 SET character_set_client = @saved_cs_client */;\
+\
+--\
+-- Dumping data for table `review`\
+--\
+\
+LOCK TABLES `review` WRITE;\
+/*!40000 ALTER TABLE `review` DISABLE KEYS */;\
+/*!40000 ALTER TABLE `review` ENABLE KEYS */;\
+UNLOCK TABLES;\
+\
+--\
+-- Table structure for table `userDetails`\
+--\
+\
+DROP TABLE IF EXISTS `userDetails`;\
+/*!40101 SET @saved_cs_client     = @@character_set_client */;\
+/*!40101 SET character_set_client = utf8 */;\
+CREATE TABLE `userDetails` (\
+	`id` varchar(11) NOT NULL DEFAULT '000000',\
+  `firstName` varchar(35) DEFAULT NULL,\
+  `lastName` varchar(35) DEFAULT NULL,\
+  `email` varchar(35) DEFAULT NULL,\
+  `password` varchar(35) DEFAULT NULL,\
+  `address` varchar(35) DEFAULT NULL,\
+  `zipCode` varchar(35) DEFAULT NULL,\
+  `city` varchar(25) DEFAULT NULL,\
+  `state` varchar(25) DEFAULT NULL,\
+  `accountDetails` varchar(25) DEFAULT NULL,\
+  PRIMARY KEY (`id`)\
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
+/*!40101 SET character_set_client = @saved_cs_client */;\
+\
+--\
+-- Dumping data for table `userDetails`\
+--\
+\
+LOCK TABLES `userDetails` WRITE;\
+/*!40000 ALTER TABLE `userDetails` DISABLE KEYS */;\
+INSERT INTO `userDetails` VALUES (1,'Bharath','Gowda','bharath.nag.gowda@gmail.com','Abc12345678',NULL,NULL,NULL,NULL,NULL),(2,'Nisha','Anil','vidyags@outlook.com','Anil1234',NULL,NULL,NULL,NULL,NULL);\
+/*!40000 ALTER TABLE `userDetails` ENABLE KEYS */;\
+UNLOCK TABLES;\
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;\
+\
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;\
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;\
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;\
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;\
+\
+-- Dump completed on 2014-12-04 11:15:02\
+}
