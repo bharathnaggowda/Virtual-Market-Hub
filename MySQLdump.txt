@@ -65,7 +65,7 @@ CREATE TABLE `Buyer` (\
   `category` varchar(11) DEFAULT NULL,\
   PRIMARY KEY (`buyerId`),\
   KEY `productId` (`productId`),\
-  CONSTRAINT `Buyer_ibfk_1` FOREIGN KEY (`buyerId`) REFERENCES `userDetails` (`ssn`),\
+  CONSTRAINT `Buyer_ibfk_1` FOREIGN KEY (`buyerId`) REFERENCES `userDetails` (`id`),\
   CONSTRAINT `Buyer_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `product` (`productId`)\
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
 /*!40101 SET character_set_client = @saved_cs_client */;\
@@ -193,7 +193,7 @@ DROP TABLE IF EXISTS `forgotPassword`;\
 /*!40101 SET @saved_cs_client     = @@character_set_client */;\
 /*!40101 SET character_set_client = utf8 */;\
 CREATE TABLE `forgotPassword` (\
-  `ssn` varchar(11) DEFAULT NULL,\
+  `id` varchar(11) DEFAULT NULL,\
   `securityQuestion` varchar(90) DEFAULT NULL,\
   `answer` varchar(35) DEFAULT NULL\
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
@@ -253,7 +253,7 @@ CREATE TABLE `review` (\
   `rating` int(10) DEFAULT NULL,\
   `review` varchar(1000) DEFAULT NULL,\
   KEY `userId_idx` (`userId`),\
-  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `userDetails` (`ssn`) ON DELETE CASCADE ON UPDATE CASCADE\
+  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `userDetails` (`id`) ON DELETE CASCADE ON UPDATE CASCADE\
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
 /*!40101 SET character_set_client = @saved_cs_client */;\
 \
@@ -307,6 +307,7 @@ DROP TABLE IF EXISTS `userDetails`;\
 /*!40101 SET @saved_cs_client     = @@character_set_client */;\
 /*!40101 SET character_set_client = utf8 */;\
 CREATE TABLE `userDetails` (\
+	`id` varchar(11) NOT NULL DEFAULT '000000',\
   `firstName` varchar(35) DEFAULT NULL,\
   `lastName` varchar(35) DEFAULT NULL,\
   `email` varchar(35) DEFAULT NULL,\
@@ -316,9 +317,7 @@ CREATE TABLE `userDetails` (\
   `city` varchar(25) DEFAULT NULL,\
   `state` varchar(25) DEFAULT NULL,\
   `accountDetails` varchar(25) DEFAULT NULL,\
-  `ssn` varchar(11) NOT NULL,\
-  `time` varchar(35) NOT NULL,\
-  PRIMARY KEY (`ssn`)\
+  PRIMARY KEY (`id`)\
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;\
 /*!40101 SET character_set_client = @saved_cs_client */;\
 \
@@ -328,7 +327,7 @@ CREATE TABLE `userDetails` (\
 \
 LOCK TABLES `userDetails` WRITE;\
 /*!40000 ALTER TABLE `userDetails` DISABLE KEYS */;\
-INSERT INTO `userDetails` VALUES ('Prabhu','Maniraj','pbustudy@gmail.com','ad',NULL,NULL,NULL,NULL,NULL,'1','Sat Dec 06 2014 20:16:20 GMT-0800 ('),('Nishanth','prabhuswamy','nishanththeprince@gmail.com','Abc12345678',NULL,NULL,NULL,NULL,NULL,'123-44-5555','Mon Dec 08 2014 11:48:05 GMT-0800 ('),('Surabhi','Mundargi','surabhi.m@gmail.com','Surabhi11',NULL,NULL,NULL,NULL,NULL,'123-44-6666','Fri Dec 05 2014 13:09:23 GMT-0800 ('),('Roshan','Srinivas','roshan.srinivas@gmail.com','Roshan123',NULL,NULL,NULL,NULL,NULL,'123-44-6677','Sat Dec 06 2014 01:51:57 GMT-0800 ('),('Prabhu','Maniraj','pbustudy@gmail.com','Pbu123456',NULL,NULL,NULL,NULL,NULL,'123-44-7777','Sat Dec 06 2014 20:16:20 GMT-0800 ('),('Nisha','Anil','vidyags@outlook.com','Anil1234',NULL,NULL,NULL,NULL,NULL,'123-45-9999','Sat Dec 06 2014 19:59:34 GMT-0800 ('),('admin','ebay','admin@ebay.com','adminlogin1','ebay office sanjose','93145','san jose','CAL','admin','777-77-7777','Sun Dec 07 2014 22:42:31 GMT-0800 (');\
+INSERT INTO `userDetails` VALUES (1,'Bharath','Gowda','bharath.nag.gowda@gmail.com','Abc12345678',NULL,NULL,NULL,NULL,NULL),(2,'Nisha','Anil','vidyags@outlook.com','Anil1234',NULL,NULL,NULL,NULL,NULL);\
 /*!40000 ALTER TABLE `userDetails` ENABLE KEYS */;\
 UNLOCK TABLES;\
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;\
