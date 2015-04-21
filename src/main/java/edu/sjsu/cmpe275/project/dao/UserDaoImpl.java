@@ -30,7 +30,4 @@ public class UserDaoImpl implements UserDAO  {
         	this.sessionFactory.getCurrentSession().delete(user);
         }
 	}
-	
-	
-
 }

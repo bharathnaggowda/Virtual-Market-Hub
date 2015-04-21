@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import edu.sjsu.cmpe275.project.entity.ProductEntity;
 import edu.sjsu.cmpe275.project.entity.UserEntity;
+import edu.sjsu.cmpe275.project.service.ProductManager;
 import edu.sjsu.cmpe275.project.service.UserManager;
 
 @Controller
@@ -20,6 +22,8 @@ public class ShoppingController {
 	
 	@Autowired
 	private UserManager userManager;
+	
+	private ProductManager productManager;
 	
 	Random randomGenerator = new Random();
 	
@@ -29,9 +33,25 @@ public class ShoppingController {
 		map.addAttribute("user", new UserEntity());
 		map.addAttribute("userList", userManager.getAllUsers());
 		
-		return "userList";
+		return "home";
+	}
+	
+	@RequestMapping(value = "/sell", method = RequestMethod.GET)
+	public String addProducts(ModelMap map) 
+	{
+		map.addAttribute("user", new UserEntity());
+		map.addAttribute("userList", userManager.getAllUsers());
+		
+		return "product";
 	}
 
+	@RequestMapping(value = "/addproduct", method = RequestMethod.POST)
+	public String addProducts(@ModelAttribute(value="product") ProductEntity product, BindingResult result) 
+	{
+		productManager.addProduct(product);
+		return "home";
+	}
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute(value="user") UserEntity user, BindingResult result) 
 	{
