@@ -12,6 +12,7 @@ import edu.sjsu.cmpe275.project.entity.UserEntity;
 @Service
 public class UserManagerImpl implements UserManager {
 	
+	
 	@Autowired
     private UserDAO userDAO;
 
@@ -33,4 +34,5 @@ public class UserManagerImpl implements UserManager {
 	public void setUserDAO(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
+	
 }

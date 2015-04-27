@@ -13,7 +13,7 @@ public class TestDB {
 		{
 		String url = "jdbc:mysql://localhost:3306/onlineshopping";
 		String user = "root";
-		String password = "";
+		String password = "anil";
 
 		// Load the Connector/J driver
 		Class.forName("com.mysql.jdbc.Driver").newInstance();

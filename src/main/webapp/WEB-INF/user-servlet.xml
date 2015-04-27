@@ -18,6 +18,7 @@
  
     <context:annotation-config />
     <context:component-scan base-package="edu.sjsu.cmpe275.project.controller" />
+   
  
     <bean id="jspViewResolver"
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -62,6 +63,12 @@
     
     <bean id="userDAO" class="edu.sjsu.cmpe275.project.dao.UserDaoImpl"></bean>
     <bean id="userManager" class="edu.sjsu.cmpe275.project.service.UserManagerImpl"></bean>
+     <bean id="loginDAO" class="edu.sjsu.cmpe275.project.dao.LoginDAOImpl"></bean>
+   <bean id="loginService" class="edu.sjsu.cmpe275.project.service.LoginServiceImpl"></bean>
+   <bean id="productDAO" class="edu.sjsu.cmpe275.project.dao.ProductDaoImpl"></bean>
+    <bean id="productManager" class="edu.sjsu.cmpe275.project.service.ProductManagerImpl"></bean>
+   
+    
  
     <tx:annotation-driven />
     <bean id="transactionManager"

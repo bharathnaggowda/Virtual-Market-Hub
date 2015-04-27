@@ -33,4 +33,12 @@ public class ProductManagerImpl implements ProductManager{
 	public void setProductDAO(ProductDAO productDAO) {
 		this.productDAO = productDAO;
 	}
+
+	public List getCategorizedProducts(String category) {
+		return productDAO.getCategorizedProducts(category);
+	}
+
+	public Object getProductById(int id) {
+		return productDAO.getCategorizedProducts(id);
+	}
 }
